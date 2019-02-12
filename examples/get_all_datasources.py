@@ -61,6 +61,15 @@ def get_api_function_name(datasource_type):
 
     return datasource[datasource_type]
 
+
+def get_data(datasource):
+    data = {}
+    data["DataSourceType"] = "{}".format(datasource.entity_type)
+    data["IP"] = "{}".format(datasource.ip)
+    data["NickName"] = "{}".format(datasource.nickname)
+
+    return data
+
 def main(api_client, args):
 
     # Create data source API client object
@@ -79,9 +88,9 @@ def main(api_client, args):
                 data_source_list = list_datasource_api_fn()
                 print("Successfully got list of: {} : Response : {}".format(data_source_type, data_source_list))
                 for data_source in  data_source_list.results:
-                    ds = get_datasource_fn(id=data_source.entity_id)
-                    print("Successfully got {} : Response : {}".format(data_source_type, ds))
-                    data.append({"DataSourceType" : "{}".format(ds.entity_type), "IP": "{}".format(ds.ip),"NickName" : "{}".format(ds.nickname)})
+                    datasource = get_datasource_fn(id=data_source.entity_id)
+                    print("Successfully got {} : Response : {}".format(data_source_type, datasource))
+                    data.append(get_data(datasource))
             except ApiException as e:
                 print("Failed getting list of data source type: {} : Error : {} ".format(data_source_type, json.loads(e.body)))
         writer.writerows(data)
