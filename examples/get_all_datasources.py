@@ -1,7 +1,6 @@
 #
-# This script uses an input CSV (example: data_sources.csv)
-# To add multiple vRealize Network Insight Data Sources. Modify data_sources.csv to contain your own data sources (vCenters, NSX, switches, firewalls)
-# and run this script with the param --data_sources_csv to your CSV.
+# This script write the added datasource in an input CSV (example: data_sources.csv)
+# To list multiple vRealize Network Insight Data Sources run this script with the param --data_sources_csv to your CSV.
 
 # Note: -
 # DataSourceType in DATASOURCES_LIST is taken from swagger_client.models.data_source_type.py
@@ -114,7 +113,7 @@ def main(api_client, args):
 
     # Create data source API client object
     datasource_api = swagger_client.DataSourcesApi(api_client=api_client)
-    with open("list_of_datasources.csv", 'w') as csvFile:
+    with open("{}".format(args.data_sources_csv), 'w') as csvFile:
         fields = ["DataSourceType","IP","Username","Password","CSPRefreshToken","NickName","CentralCliEnabled",
            "IPFixEnabled","SwitchType","ParentvCenter","IsVMC"]
         writer = csv.DictWriter(csvFile, fieldnames=fields)
