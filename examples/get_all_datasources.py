@@ -22,8 +22,8 @@ import swagger_client.models.data_source_type as data_source_type
 import json
 
 
-# DATASOURCES_LIST = ["VCenterDataSource","CiscoSwitchDataSource","NSXVManagerDataSource","NSXTManagerDataSource"]
-DATASOURCES_LIST = ["CiscoSwitchDataSource"]
+DATASOURCES_LIST = ["VCenterDataSource","CiscoSwitchDataSource","NSXVManagerDataSource","NSXTManagerDataSource",
+                   "PolicyManagerDataSource", "PanFirewallDataSource"]
 
 def get_api_function_name(datasource_type):
     datasource = {data_source_type.DataSourceType.CISCOSWITCHDATASOURCE: {"list" : "list_cisco_switches",
@@ -61,13 +61,53 @@ def get_api_function_name(datasource_type):
 
     return datasource[datasource_type]
 
+def get_vcenter_manager_ip(api_client, datasource_api, datasource):
+    # USING search public API to get Vcenter IP address
 
-def get_data(datasource):
+    # Getting entity id of
+    search_api = swagger_client.SearchApi(api_client=api_client)
+    if datasource.entity_type == "NSXVManagerDataSource":
+        nsx_entity_id = get_nsxv_manager_entity_id(search_api, datasource.ip)
+
+    #not working as search entity for nsx-t is not present
+    elif datasource.entity_type == "NSXTManagerDataSource":
+        return None
+    search_payload = dict(entity_type=swagger_client.EntityType.VCENTERMANAGER,
+                                 filter="nsx_manager.entity_id = '{}'".format(nsx_entity_id))
+    vcenter = search_api.search_entities(body=search_payload).results[0]
+    entities_api = swagger_client.EntitiesApi(api_client=api_client)
+    get_entity_by_id_fn = getattr(entities_api, "get_vcenter_manager")
+    vcenter = get_entity_by_id_fn(id=vcenter.entity_id)
+    return vcenter.ip_address.ip_address
+
+def get_nsxv_manager_entity_id(search_api, nsx_ip):
+    search_payload = dict(entity_type=swagger_client.EntityType.NSXVMANAGER,
+                                 filter="ip_address.ip_address = '{}'".format(nsx_ip))
+    result = search_api.search_entities(body=search_payload).results[0]
+    return result.entity_id
+
+def get_nsxt_manager_entity_id(search_api, nsx_ip):
+    search_payload = dict(entity_type=swagger_client.EntityType.NSXTMANAGER,
+                                 filter="ip_address.ip_address = '{}'".format(nsx_ip))
+    result = search_api.search_entities(body=search_payload).results[0]
+    return result.entity_id
+
+def get_data(datasource_api, datasource):
     data = {}
+    if datasource.entity_type == "NSXVManagerDataSource" or datasource.entity_type == "NSXTManagerDataSource":
+        vcenter_ip = get_vcenter_manager_ip(api_client, datasource_api, datasource)
+        data["ParentvCenter"] = "{}".format(vcenter_ip)
     data["DataSourceType"] = "{}".format(datasource.entity_type)
     data["IP"] = "{}".format(datasource.ip)
+    if hasattr(datasource, "credentials"):
+        data["Username"] = "{}".format(datasource.credentials.username)
     data["NickName"] = "{}".format(datasource.nickname)
-
+    if hasattr(datasource ,"SwitchType"):
+        data["SwitchType"] = "{}".format(datasource.switch_type)
+    if hasattr(datasource ,"ipfix_enabled"):
+        data["IPFixEnabled"] = "{}".format(datasource.ipfix_enabled)
+    if hasattr(datasource ,"central_cli_enabled"):
+        data["CentralCliEnabled"] = "{}".format(datasource.central_cli_enabled)
     return data
 
 def main(api_client, args):
@@ -76,12 +116,13 @@ def main(api_client, args):
     datasource_api = swagger_client.DataSourcesApi(api_client=api_client)
     with open("list_of_datasources.csv", 'w') as csvFile:
         fields = ["DataSourceType","IP","Username","Password","CSPRefreshToken","NickName","CentralCliEnabled",
-           "IPFixEnabled","SwitchType","ParentvCenter","IsVMC","ProxyIP"]
+           "IPFixEnabled","SwitchType","ParentvCenter","IsVMC"]
         writer = csv.DictWriter(csvFile, fieldnames=fields)
         writer.writeheader()
         data =[]
         for data_source_type in DATASOURCES_LIST:
             data_source_api_name = get_api_function_name(data_source_type)
+            # Get lis function for datasource
             list_datasource_api_fn = getattr(datasource_api, data_source_api_name["list"])
             get_datasource_fn = getattr(datasource_api, data_source_api_name["get"])
             try:
@@ -90,7 +131,7 @@ def main(api_client, args):
                 for data_source in  data_source_list.results:
                     datasource = get_datasource_fn(id=data_source.entity_id)
                     print("Successfully got {} : Response : {}".format(data_source_type, datasource))
-                    data.append(get_data(datasource))
+                    data.append(get_data(datasource_api, datasource))
             except ApiException as e:
                 print("Failed getting list of data source type: {} : Error : {} ".format(data_source_type, json.loads(e.body)))
         writer.writerows(data)
