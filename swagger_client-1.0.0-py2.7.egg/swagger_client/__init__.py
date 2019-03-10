@@ -77,6 +77,7 @@ from .models.node import Node
 from .models.node_id import NodeId
 from .models.node_list_result import NodeListResult
 from .models.node_type import NodeType
+from .models.pks_source_request import PKSSourceRequest
 from .models.paged_application_list_response import PagedApplicationListResponse
 from .models.paged_list_response import PagedListResponse
 from .models.paged_list_response_with_time import PagedListResponseWithTime
@@ -96,6 +97,7 @@ from .models.snmp_config import SNMPConfig
 from .models.scope_enum import ScopeEnum
 from .models.search_membership_criteria import SearchMembershipCriteria
 from .models.search_request import SearchRequest
+from .models.service_now_source_request import ServiceNowSourceRequest
 from .models.simple_list_response import SimpleListResponse
 from .models.simple_port_range import SimplePortRange
 from .models.sort_by_clause import SortByClause
@@ -135,10 +137,13 @@ from .models.kubernetes_data_source_request import KubernetesDataSourceRequest
 from .models.nsxt_manager_data_source_request import NSXTManagerDataSourceRequest
 from .models.nsxv_manager_data_source import NSXVManagerDataSource
 from .models.nsxv_manager_data_source_request import NSXVManagerDataSourceRequest
+from .models.pks_data_source import PKSDataSource
+from .models.pks_data_source_request import PKSDataSourceRequest
 from .models.policy_manager_data_source import PolicyManagerDataSource
 from .models.policy_manager_data_source_request import PolicyManagerDataSourceRequest
 from .models.resource_pool import ResourcePool
 from .models.security_tag import SecurityTag
+from .models.service_now_data_source_request import ServiceNowDataSourceRequest
 from .models.subnet_mapping import SubnetMapping
 from .models.switch_data_source import SwitchDataSource
 from .models.switch_data_source_request import SwitchDataSourceRequest
@@ -160,6 +165,8 @@ from .models.brocade_switch_data_source import BrocadeSwitchDataSource
 from .models.brocade_switch_data_source_request import BrocadeSwitchDataSourceRequest
 from .models.checkpoint_firewall_data_source import CheckpointFirewallDataSource
 from .models.checkpoint_firewall_data_source_request import CheckpointFirewallDataSourceRequest
+from .models.cisco_aci_data_source import CiscoACIDataSource
+from .models.cisco_aci_data_source_request import CiscoACIDataSourceRequest
 from .models.cisco_switch_data_source import CiscoSwitchDataSource
 from .models.cisco_switch_data_source_request import CiscoSwitchDataSourceRequest
 from .models.dell_switch_data_source import DellSwitchDataSource
@@ -192,6 +199,7 @@ from .models.nsxt_manager_data_source import NSXTManagerDataSource
 from .models.pan_firewall_data_source import PanFirewallDataSource
 from .models.pan_firewall_data_source_request import PanFirewallDataSourceRequest
 from .models.problem_event import ProblemEvent
+from .models.service_now_data_source import ServiceNowDataSource
 from .models.ucs_manager_data_source import UCSManagerDataSource
 from .models.ucs_manager_data_source_request import UCSManagerDataSourceRequest
 from .models.v_center_manager import VCenterManager

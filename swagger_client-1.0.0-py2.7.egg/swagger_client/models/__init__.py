@@ -77,6 +77,7 @@ from .node import Node
 from .node_id import NodeId
 from .node_list_result import NodeListResult
 from .node_type import NodeType
+from .pks_source_request import PKSSourceRequest
 from .paged_application_list_response import PagedApplicationListResponse
 from .paged_list_response import PagedListResponse
 from .paged_list_response_with_time import PagedListResponseWithTime
@@ -96,6 +97,7 @@ from .snmp_config import SNMPConfig
 from .scope_enum import ScopeEnum
 from .search_membership_criteria import SearchMembershipCriteria
 from .search_request import SearchRequest
+from .service_now_source_request import ServiceNowSourceRequest
 from .simple_list_response import SimpleListResponse
 from .simple_port_range import SimplePortRange
 from .sort_by_clause import SortByClause
@@ -135,10 +137,13 @@ from .kubernetes_data_source_request import KubernetesDataSourceRequest
 from .nsxt_manager_data_source_request import NSXTManagerDataSourceRequest
 from .nsxv_manager_data_source import NSXVManagerDataSource
 from .nsxv_manager_data_source_request import NSXVManagerDataSourceRequest
+from .pks_data_source import PKSDataSource
+from .pks_data_source_request import PKSDataSourceRequest
 from .policy_manager_data_source import PolicyManagerDataSource
 from .policy_manager_data_source_request import PolicyManagerDataSourceRequest
 from .resource_pool import ResourcePool
 from .security_tag import SecurityTag
+from .service_now_data_source_request import ServiceNowDataSourceRequest
 from .subnet_mapping import SubnetMapping
 from .switch_data_source import SwitchDataSource
 from .switch_data_source_request import SwitchDataSourceRequest
@@ -160,6 +165,8 @@ from .brocade_switch_data_source import BrocadeSwitchDataSource
 from .brocade_switch_data_source_request import BrocadeSwitchDataSourceRequest
 from .checkpoint_firewall_data_source import CheckpointFirewallDataSource
 from .checkpoint_firewall_data_source_request import CheckpointFirewallDataSourceRequest
+from .cisco_aci_data_source import CiscoACIDataSource
+from .cisco_aci_data_source_request import CiscoACIDataSourceRequest
 from .cisco_switch_data_source import CiscoSwitchDataSource
 from .cisco_switch_data_source_request import CiscoSwitchDataSourceRequest
 from .dell_switch_data_source import DellSwitchDataSource
@@ -192,6 +199,7 @@ from .nsxt_manager_data_source import NSXTManagerDataSource
 from .pan_firewall_data_source import PanFirewallDataSource
 from .pan_firewall_data_source_request import PanFirewallDataSourceRequest
 from .problem_event import ProblemEvent
+from .service_now_data_source import ServiceNowDataSource
 from .ucs_manager_data_source import UCSManagerDataSource
 from .ucs_manager_data_source_request import UCSManagerDataSourceRequest
 from .v_center_manager import VCenterManager

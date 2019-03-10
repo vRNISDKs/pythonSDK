@@ -68,8 +68,7 @@ def get_vcenter_manager_ip(api_client, datasource_api, datasource):
     if datasource.entity_type == "NSXVManagerDataSource":
         nsx_entity_id = get_nsxv_manager_entity_id(search_api, datasource.ip)
 
-    #not working as search entity for nsx-t is not present
-    elif datasource.entity_type == "NSXTManagerDataSource":
+    elif datasource.entity_type == "PolicyManagerDataSource":
         return None
     search_payload = dict(entity_type=swagger_client.EntityType.VCENTERMANAGER,
                                  filter="nsx_manager.entity_id = '{}'".format(nsx_entity_id))
@@ -93,7 +92,7 @@ def get_nsxt_manager_entity_id(search_api, nsx_ip):
 
 def get_data(datasource_api, datasource):
     data = {}
-    if datasource.entity_type == "NSXVManagerDataSource" or datasource.entity_type == "NSXTManagerDataSource":
+    if datasource.entity_type == "NSXVManagerDataSource" or datasource.entity_type == "PolicyManagerDataSource":
         vcenter_ip = get_vcenter_manager_ip(api_client, datasource_api, datasource)
         data["ParentvCenter"] = "{}".format(vcenter_ip)
     data["DataSourceType"] = "{}".format(datasource.entity_type)

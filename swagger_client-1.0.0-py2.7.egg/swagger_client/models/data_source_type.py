@@ -40,6 +40,7 @@ class DataSourceType(object):
     CHECKPOINTFIREWALLDATASOURCE = "CheckpointFirewallDataSource"
     NSXTMANAGERDATASOURCE = "NSXTManagerDataSource"
     KUBERNETESDATASOURCE = "KubernetesDataSource"
+    PKSDATASOURCE = "PKSDataSource"
     INFOBLOXMANAGERDATASOURCE = "InfobloxManagerDataSource"
     POLICYMANAGERDATASOURCE = "PolicyManagerDataSource"
 

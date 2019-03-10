@@ -67,6 +67,8 @@ swagger_client/models/checkpoint_firewall_data_source_request.py
 swagger_client/models/checkpoint_firewall_rule.py
 swagger_client/models/checkpoint_manager.py
 swagger_client/models/checkpoint_mds_manager.py
+swagger_client/models/cisco_aci_data_source.py
+swagger_client/models/cisco_aci_data_source_request.py
 swagger_client/models/cisco_switch_data_source.py
 swagger_client/models/cisco_switch_data_source_request.py
 swagger_client/models/cisco_switch_type.py
@@ -172,6 +174,9 @@ swagger_client/models/pan_firewall_data_source_request.py
 swagger_client/models/password_credentials.py
 swagger_client/models/path_firewall_rules.py
 swagger_client/models/path_firewall_rules_request.py
+swagger_client/models/pks_data_source.py
+swagger_client/models/pks_data_source_request.py
+swagger_client/models/pks_source_request.py
 swagger_client/models/policy_manager_data_source.py
 swagger_client/models/policy_manager_data_source_request.py
 swagger_client/models/port_range.py
@@ -187,6 +192,9 @@ swagger_client/models/scope_enum.py
 swagger_client/models/search_membership_criteria.py
 swagger_client/models/search_request.py
 swagger_client/models/security_tag.py
+swagger_client/models/service_now_data_source.py
+swagger_client/models/service_now_data_source_request.py
+swagger_client/models/service_now_source_request.py
 swagger_client/models/simple_list_response.py
 swagger_client/models/simple_port_range.py
 swagger_client/models/snmp2c_config.py
@@ -267,6 +275,8 @@ test/test_checkpoint_firewall_data_source_request.py
 test/test_checkpoint_firewall_rule.py
 test/test_checkpoint_manager.py
 test/test_checkpoint_mds_manager.py
+test/test_cisco_aci_data_source.py
+test/test_cisco_aci_data_source_request.py
 test/test_cisco_switch_data_source.py
 test/test_cisco_switch_data_source_request.py
 test/test_cisco_switch_type.py
@@ -380,6 +390,9 @@ test/test_password_credentials.py
 test/test_path_api.py
 test/test_path_firewall_rules.py
 test/test_path_firewall_rules_request.py
+test/test_pks_data_source.py
+test/test_pks_data_source_request.py
+test/test_pks_source_request.py
 test/test_policy_manager_data_source.py
 test/test_policy_manager_data_source_request.py
 test/test_port_range.py
@@ -397,6 +410,9 @@ test/test_search_api.py
 test/test_search_membership_criteria.py
 test/test_search_request.py
 test/test_security_tag.py
+test/test_service_now_data_source.py
+test/test_service_now_data_source_request.py
+test/test_service_now_source_request.py
 test/test_settings_api.py
 test/test_simple_list_response.py
 test/test_simple_port_range.py
