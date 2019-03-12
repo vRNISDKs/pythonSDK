@@ -24,6 +24,7 @@ import json
 DATASOURCES_LIST = ["VCenterDataSource","CiscoSwitchDataSource","NSXVManagerDataSource","NSXTManagerDataSource",
                    "PolicyManagerDataSource", "PanFirewallDataSource"]
 
+
 def get_api_function_name(datasource_type):
     datasource = {data_source_type.DataSourceType.CISCOSWITCHDATASOURCE: {"list" : "list_cisco_switches",
                                                                           "get": "get_cisco_switch"},
@@ -60,40 +61,10 @@ def get_api_function_name(datasource_type):
 
     return datasource[datasource_type]
 
-def get_vcenter_manager_ip(api_client, datasource_api, datasource):
-    # USING search public API to get Vcenter IP address
-
-    # Getting entity id of
-    search_api = swagger_client.SearchApi(api_client=api_client)
-    if datasource.entity_type == "NSXVManagerDataSource":
-        nsx_entity_id = get_nsxv_manager_entity_id(search_api, datasource.ip)
-
-    elif datasource.entity_type == "PolicyManagerDataSource":
-        return None
-    search_payload = dict(entity_type=swagger_client.EntityType.VCENTERMANAGER,
-                                 filter="nsx_manager.entity_id = '{}'".format(nsx_entity_id))
-    vcenter = search_api.search_entities(body=search_payload).results[0]
-    entities_api = swagger_client.EntitiesApi(api_client=api_client)
-    get_entity_by_id_fn = getattr(entities_api, "get_vcenter_manager")
-    vcenter = get_entity_by_id_fn(id=vcenter.entity_id)
-    return vcenter.ip_address.ip_address
-
-def get_nsxv_manager_entity_id(search_api, nsx_ip):
-    search_payload = dict(entity_type=swagger_client.EntityType.NSXVMANAGER,
-                                 filter="ip_address.ip_address = '{}'".format(nsx_ip))
-    result = search_api.search_entities(body=search_payload).results[0]
-    return result.entity_id
-
-def get_nsxt_manager_entity_id(search_api, nsx_ip):
-    search_payload = dict(entity_type=swagger_client.EntityType.NSXTMANAGER,
-                                 filter="ip_address.ip_address = '{}'".format(nsx_ip))
-    result = search_api.search_entities(body=search_payload).results[0]
-    return result.entity_id
-
 def get_data(datasource_api, datasource):
     data = {}
-    if datasource.entity_type == "NSXVManagerDataSource" or datasource.entity_type == "PolicyManagerDataSource":
-        vcenter_ip = get_vcenter_manager_ip(api_client, datasource_api, datasource)
+    if hasattr(datasource, "vcenter_id"):
+        vcenter_ip = datasource_api.get_vcenter(id=datasource.vcenter_id).ip
         data["ParentvCenter"] = "{}".format(vcenter_ip)
     data["DataSourceType"] = "{}".format(datasource.entity_type)
     data["IP"] = "{}".format(datasource.ip)
