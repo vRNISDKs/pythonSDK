@@ -66,6 +66,5 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
-    api_client1 = get_api_client(parse_arguments())
-    api_client = get_nias_api_client(parse_arguments())
-    print "here"
+    api_client_onprem = get_api_client(parse_arguments())
+    api_client_onsaas = get_nias_api_client(parse_arguments())
