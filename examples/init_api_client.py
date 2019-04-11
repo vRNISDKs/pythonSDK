@@ -21,18 +21,17 @@ def get_api_client(args):
     config.api_key_prefix['Authorization'] = 'NetworkInsight'
     return api_client
 
-def get_nias_api_client(args):
-    # Setting Up swagger client for public api
+def get_niaas_api_client(args):
     public_api_url = "{}/ni/api/ni/".format(args.nias_setup_url,)
     public_api_client = swagger_client.ApiClient(host=public_api_url)
     config = swagger_client.Configuration()
     config.verify_ssl = False
     config.api_client = ApiClient()
-    config.api_key['csp-auth-token'] = get_nias_csp_auth_token(args, config.api_client)
+    config.api_key['csp-auth-token'] = get_niaas_csp_auth_token(args, config.api_client)
     config.deployment_type = "on_saas"
     return public_api_client
 
-def get_nias_csp_auth_token(args, api_client):
+def get_niaas_csp_auth_token(args, api_client):
     authorize_api_url = "{}/am/api/auth/api-tokens/authorize?refresh_token={}".format(args.csp_url, args.refresh_token)
     response = requests.post(authorize_api_url)
     response = json.loads(str(response.text))
@@ -67,4 +66,4 @@ def parse_arguments():
 
 if __name__ == '__main__':
     api_client_onprem = get_api_client(parse_arguments())
-    api_client_onsaas = get_nias_api_client(parse_arguments())
+    api_client_onsaas = get_niaas_api_client(parse_arguments())
