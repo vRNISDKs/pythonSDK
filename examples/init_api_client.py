@@ -5,7 +5,14 @@ import json
 from swagger_client.api_client import ApiClient
 
 
+
 def get_api_client(args):
+    if args.deployment_type == "onprem":
+        return get_onsaas_api_client(args)
+    else:
+        return get_niaas_api_client(args)
+
+def get_onsaas_api_client(args):
     config = swagger_client.Configuration()
     config.verify_ssl = False
 
@@ -51,14 +58,16 @@ def parse_arguments():
                         default='LOCAL', help="domain type for authentication")
     parser.add_argument("--data_sources_csv", action="store",
                         default='data_sources.csv', help="domain type for authentication")
+    parser.add_argument("--deployment_type", action="store",
+                     help="Setup deployment type: onprem or niaas")
 
-    # Symphony parameters
-    parser.add_argument('--csp_url', action='store', default="https://csp.nd44.vrni-symphony.com/csp/gateway",
-                        help='Provide nias test envirnoment')
-    parser.add_argument('--nias_setup_url', action='store', default="https://nd44.us.www.main.vrni-symphony.com",
-                        help='Provide nias test envirnoment')
-    parser.add_argument('--refresh_token', action='store', default="1b816f980a01d6755841bae26b120",
-                        help='Provide nias refresh token')
+    # Network Insight as a service (NIAAS) parameters
+    parser.add_argument('--csp_url', action='store',
+                        help='Provide niaas test envirnoment')
+    parser.add_argument('--nias_setup_url', action='store',
+                        help='Provide niaas test envirnoment')
+    parser.add_argument('--refresh_token', action='store',
+                        help='Provide niaas refresh token')
 
     args = parser.parse_args()
     return args
@@ -66,4 +75,3 @@ def parse_arguments():
 
 if __name__ == '__main__':
     api_client_onprem = get_api_client(parse_arguments())
-    api_client_onsaas = get_niaas_api_client(parse_arguments())
