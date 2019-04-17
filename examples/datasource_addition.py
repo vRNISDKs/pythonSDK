@@ -133,7 +133,6 @@ def get_vcenter_manager_entity_id(data_source_api, vcenter_ip=None):
 
 proxy_ip_to_id = dict()
 
-
 def main(api_client, args):
 
     # Create data source API client object
@@ -141,38 +140,40 @@ def main(api_client, args):
     with open("{}".format(args.data_sources_csv), 'rb') as csvFile:
         data_sources = csv.DictReader(csvFile)
         for data_source in data_sources:
-            data_source_type = data_source['DataSourceType']
+            switch_ip = data_source['IP']
+            nickname = data_source['NickName']
+            for i in range(0, 50):
+                data_source_type = data_source['DataSourceType']
 
-            # Get the Proxy ID from Proxy IP
-            if data_source['ProxyIP'] not in proxy_ip_to_id:
-                proxy_id = get_node_entity_id(api_client, data_source['ProxyIP'])
-                if not proxy_id:
-                    logger.info("Incorrect Proxy IP {}".format(data_source['ProxyIP']))
-                    continue
-                proxy_ip_to_id[data_source['ProxyIP']] = proxy_id
-            else:
-                proxy_id = proxy_ip_to_id[data_source['ProxyIP']]
+                # Get the Proxy ID from Proxy IP
+                if data_source['ProxyIP'] not in proxy_ip_to_id:
+                    proxy_id = get_node_entity_id(api_client, data_source['ProxyIP'])
+                    if not proxy_id:
+                        print("Incorrect Proxy IP {}".format(data_source['ProxyIP']))
+                        continue
+                    proxy_ip_to_id[data_source['ProxyIP']] = proxy_id
+                else:
+                    proxy_id = proxy_ip_to_id[data_source['ProxyIP']]
 
-            # Get vCenter ID for vCenter manager required for adding NSX
-            vcenter_id = get_vcenter_manager_entity_id(data_source_api, data_source['ParentvCenter'])
-            logger.info("Adding: <{}> <{}>".format(data_source_type, data_source['IP']))
-            # Get the Data source add api fn
-            data_source_api_name = get_api_function_name(data_source_type)
-            add_data_source_api_fn = getattr(data_source_api, data_source_api_name['add'])
-            try:
-                response = add_data_source_api_fn(body=get_add_request_body(data_source, proxy_id, vcenter_id))
-                logger.info(
-                    "Successfully added: {} {} : Response : {}".format(data_source_type, data_source['IP'], response))
-                if data_source['snmp_version']:
-                    add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
-                    response = add_snmp_api_fn(id=response.entity_id, body=get_snmp_request_body(data_source))
-                    logger.info(
-                        "Successfully added: {} {} snmp : Response : {}".format(data_source_type, data_source['IP'],
-                                                                                response))
-            except ApiException as e:
-                logger.exception(
-                    "Failed adding data source: {} : Error : {} ".format(data_source['IP'], json.loads(e.body)))
+                # Get vCenter ID for vCenter manager required for adding NSX
+                vcenter_id = get_vcenter_manager_entity_id(data_source_api, data_source['ParentvCenter'])
+                print("Adding: <{}> <{}>".format(data_source_type, data_source['IP']))
+                # Get the Data source add api fn
+                data_source_api_name = get_api_function_name(data_source_type)
+                add_data_source_api_fn = getattr(data_source_api, data_source_api_name['add'])
+                try:
+                    data_source['IP'] = "{}:{}".format(switch_ip, i + 3100)
+                    data_source['NickName'] = "{}_{}".format(nickname, i + 3100)
+                    response = add_data_source_api_fn(body=get_add_request_body(data_source, proxy_id, vcenter_id))
 
+                    print("Successfully added: {} {} : Response : {}".format(data_source_type, data_source['IP'], response))
+                    if data_source['snmp_version']:
+                        add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
+                        response = add_snmp_api_fn(id=response.entity_id, body=get_snmp_request_body(data_source))
+                        print("Successfully added: {} {} snmp : Response : {}".format(data_source_type, data_source['IP'],
+                                                                                      response))
+                except ApiException as e:
+                    print("Failed adding data source: {} : Error : {} ".format(data_source['IP'], json.loads(e.body)))
 
 if __name__ == '__main__':
     args = init_api_client.parse_arguments()
