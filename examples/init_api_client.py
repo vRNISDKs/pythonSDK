@@ -35,7 +35,7 @@ def get_niaas_api_client(args):
     config.verify_ssl = False
     config.api_client = ApiClient()
     config.api_key['csp-auth-token'] = get_niaas_csp_auth_token(args, config.api_client)
-    config.deployment_type = "niaas"
+    config.deployment_type = args.deployment_type
     return public_api_client
 
 def get_niaas_csp_auth_token(args, api_client):
