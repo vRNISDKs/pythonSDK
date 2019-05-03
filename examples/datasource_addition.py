@@ -142,7 +142,7 @@ def main(api_client, args):
         for data_source in data_sources:
             switch_ip = data_source['IP']
             nickname = data_source['NickName']
-            for i in range(0, 100):
+            for i in range(0, 50):
                 data_source_type = data_source['DataSourceType']
 
                 # Get the Proxy ID from Proxy IP
@@ -162,8 +162,8 @@ def main(api_client, args):
                 data_source_api_name = get_api_function_name(data_source_type)
                 add_data_source_api_fn = getattr(data_source_api, data_source_api_name['add'])
                 try:
-                    data_source['IP'] = "{}:{}".format(switch_ip, i + 3000)
-                    data_source['NickName'] = "{}_{}".format(nickname, i + 3000)
+                    data_source['IP'] = "{}:{}".format(switch_ip, i + 3100)
+                    data_source['NickName'] = "{}_{}".format(nickname, i + 3100)
                     response = add_data_source_api_fn(body=get_add_request_body(data_source, proxy_id, vcenter_id))
 
                     print("Successfully added: {} {} : Response : {}".format(data_source_type, data_source['IP'], response))
