@@ -179,6 +179,7 @@ def main(api_client, args):
                     print("Successfully got {} : Response : {}".format(data_source_type, datasource11.fqdn))
                     if data_source['snmp_version']:
                         if datasource11.proxy_id == proxy_id:
+                            print("Successfully got {} : Response : {}".format(data_source_type, datasource11))
                             add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
                             try:
                                 response = add_snmp_api_fn(id=datasource11.entity_id, body=get_snmp_request_body(data_source))
