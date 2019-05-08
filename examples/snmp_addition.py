@@ -176,7 +176,7 @@ def main(api_client, args):
                 print("Successfully got list of: {} : Response : {}".format(data_source_type, data_source_list))
                 for data_source1 in data_source_list.results:
                     datasource11 = get_datasource_fn(id=data_source1.entity_id)
-                    print("Successfully got {} : Response : {}".format(data_source_type, datasource11))
+                    print("Successfully got {} : Response : {}".format(data_source_type, datasource11.fqdn))
                     if data_source['snmp_version']:
                         if datasource11.proxy_id == proxy_id:
                             add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
