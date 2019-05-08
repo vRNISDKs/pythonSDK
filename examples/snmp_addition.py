@@ -179,9 +179,14 @@ def main(api_client, args):
                     print("Successfully got {} : Response : {}".format(data_source_type, datasource11))
                     if data_source['snmp_version']:
                         add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
-                        response = add_snmp_api_fn(id=datasource11.entity_id, body=get_snmp_request_body(data_source))
-                        print("Successfully added: {} {} snmp : Response : {}".format(data_source_type, data_source['IP'],
-                                                                                      response))
+                        try:
+                            response = add_snmp_api_fn(id=datasource11.entity_id, body=get_snmp_request_body(data_source))
+                            print("Successfully added: {} {} snmp : Response : {}".format(data_source_type, data_source['IP'],
+                                                                                          response))
+                        except ApiException as e:
+                            print(
+                            "Failed adding snmp: {} : Error : {} ".format(data_source['IP'], json.loads(e.body)))
+
             except ApiException as e:
                 print("Failed adding data source: {} : Error : {} ".format(data_source['IP'], json.loads(e.body)))
 
