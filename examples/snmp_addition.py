@@ -19,6 +19,7 @@
 import csv
 import json
 import logging
+import time
 
 import swagger_client
 
@@ -34,7 +35,8 @@ logger = logging.getLogger("vrni_sdk")
 def get_api_function_name(datasource_type):
     datasource = {data_source_type.DataSourceType.CISCOSWITCHDATASOURCE: {"snmp_config": "update_cisco_switch_snmp_config",
                                                                           "list" : "list_cisco_switches",
-                                                                          "get": "get_cisco_switch"},
+                                                                          "get": "get_cisco_switch",
+                                                                          "snmp_add": "get_cisco_switch_snmp_config"},
                   data_source_type.DataSourceType.DELLSWITCHDATASOURCE: {"list": "list_dell_switches",
                                                                          "get": "get_dell_switch"},
                   data_source_type.DataSourceType.ARISTASWITCHDATASOURCE: {"list": "list_arista_switches",
@@ -173,17 +175,23 @@ def main(api_client, args):
             get_datasource_fn = getattr(data_source_api, data_source_api_name["get"])
             try:
                 data_source_list = list_datasource_api_fn()
+                time.sleep(10)
                 print("Successfully got list of: {} : Response : {}".format(data_source_type, data_source_list))
-                for data_source1 in data_source_list.results:
-                    datasource11 = get_datasource_fn(id=data_source1.entity_id)
-                    print("Successfully got {} : Response : {}".format(data_source_type, datasource11.fqdn))
-                    if data_source['snmp_version']:
-                        if datasource11.proxy_id == proxy_id:
+                for i in range(0, 5):
+                    print "Trying to enable snmp {} times".format(i)
+                    for data_source1 in data_source_list.results:
+                        datasource11 = get_datasource_fn(id=data_source1.entity_id)
+                        time.sleep(10)
+                        print("Successfully got {} : Response : {}".format(data_source_type, datasource11.fqdn))
+                        add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
+                        get_snmp_fn = getattr(data_source_api, data_source_api_name["snmp_add"])
+                        snmp_status = get_snmp_fn(id=datasource11.entity_id)
+                        if snmp_status.snmp_enabled == False:
                             print("Successfully got {} : Response : {}".format(data_source_type, datasource11))
-                            add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
                             try:
+                                time.sleep(10)
                                 response = add_snmp_api_fn(id=datasource11.entity_id, body=get_snmp_request_body(data_source))
-                                print("Successfully added: {} {} snmp : Response : {}".format(data_source_type, data_source['IP'],
+                                print("Successfully added: {} {} snmp : Response : {}".format(data_source_type, datasource11.fqdn,
                                                                                               response))
                             except ApiException as e:
                                 print(
