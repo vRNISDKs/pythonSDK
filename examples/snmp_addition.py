@@ -187,6 +187,7 @@ def main(api_client, args):
                         get_snmp_fn = getattr(data_source_api, data_source_api_name["snmp_add"])
                         snmp_status = get_snmp_fn(id=datasource11.entity_id)
                         if snmp_status.snmp_enabled == False:
+                            print "Trying to enable snmp {} times".format(i)
                             print("Successfully got {} : Response : {}".format(data_source_type, datasource11))
                             try:
                                 time.sleep(10)
