@@ -174,10 +174,10 @@ def main(api_client, args):
             list_datasource_api_fn = getattr(data_source_api, data_source_api_name["list"])
             get_datasource_fn = getattr(data_source_api, data_source_api_name["get"])
             try:
-                data_source_list = list_datasource_api_fn()
-                time.sleep(10)
-                print("Successfully got list of: {} : Response : {}".format(data_source_type, data_source_list))
-                for i in range(0, 5):
+                for i in range(0, 50):
+                    data_source_list = list_datasource_api_fn()
+                    time.sleep(10)
+                    print("Successfully got list of: {} : Response : {}".format(data_source_type, data_source_list))
                     print "Trying to enable snmp {} times".format(i)
                     for data_source1 in data_source_list.results:
                         datasource11 = get_datasource_fn(id=data_source1.entity_id)
