@@ -143,7 +143,7 @@ def main(api_client, args):
             for data_source in data_sources:
                 switch_ip = data_source['IP']
                 nickname = data_source['NickName']
-                for i in range(0, 50):
+                for i in range(0, 100):
                     data_source_type = data_source['DataSourceType']
 
                     # Get the Proxy ID from Proxy IP
