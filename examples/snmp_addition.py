@@ -182,7 +182,6 @@ def main(api_client, args):
                     for data_source1 in data_source_list.results:
                         datasource11 = get_datasource_fn(id=data_source1.entity_id)
                         time.sleep(10)
-                        print("Successfully got {} : Response : {}".format(data_source_type, datasource11.fqdn))
                         add_snmp_api_fn = getattr(data_source_api, data_source_api_name['snmp_config'])
                         get_snmp_fn = getattr(data_source_api, data_source_api_name["snmp_add"])
                         snmp_status = get_snmp_fn(id=datasource11.entity_id)
