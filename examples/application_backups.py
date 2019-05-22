@@ -1,6 +1,9 @@
 # Python SDK Examples
 # Script will get all applications and dump to yaml file or create application using data in given yaml file
-
+# If application_backup_action = save : All the applications will be dump to yaml
+# If application_backup_action = restore : Application-Tier which are created from Public API can only be succesfully restored
+# e.g Tier with filter security_groups.name='security_group_scale_100' will be restore
+# while tier with filter security_groups name='security_group_scale_100'
 
 
 import init_api_client
