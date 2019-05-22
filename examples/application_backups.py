@@ -51,8 +51,7 @@ def main(args):
                     logger.info("\tRestoring tier '{}'".format(tier['name']))
                     application_api.add_tier(created_application.entity_id, tier)
             except ApiException as e:
-                logger.error("Failed adding application: {} \n tier : {} \n Error : {} ".format(body, tier,
-                                                                                                json.loads(e.body)))
+                logger.error("{}".format(json.loads(e.body)))
 
 
 def parse_arguments():
