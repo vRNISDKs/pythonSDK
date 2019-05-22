@@ -1,5 +1,5 @@
 # Python SDK Examples
-# Script will get total bytes transferred for a specific IP or group of IPs
+# Script will get all applications and dump to CSV file or create application using data in CSV file
 # or the scope can be any l2 network, security group, etc.
 
 import init_api_client
@@ -8,6 +8,9 @@ import swagger_client
 import utilities
 import logging
 import yaml
+import json
+from swagger_client.rest import ApiException
+
 
 logger = logging.getLogger("vrni_sdk")
 
@@ -37,16 +40,19 @@ def main(args):
     if args.application_backup_action == 'restore':
         with open(args.application_backup_csv, 'r') as outfile:
             all_apps = yaml.load(outfile)
-
         for app in all_apps:
             logger.info("Restoring app '{}'".format(app['name']))
             body = {"name": app['name'] + '-restored'}
-            created_application = application_api.add_application(body)
-            for tier in app['tiers']['results']:
-                tier.pop('application')
-                tier.pop('entity_id')
-                logger.info("\tRestoring tier '{}'".format(tier['name']))
-                application_api.add_tier(created_application.entity_id, tier)
+            try:
+                created_application = application_api.add_application(body)
+                for tier in app['tiers']['results']:
+                    tier.pop('application')
+                    tier.pop('entity_id')
+                    logger.info("\tRestoring tier '{}'".format(tier['name']))
+                    application_api.add_tier(created_application.entity_id, tier)
+            except ApiException as e:
+                logger.error("Failed adding application: {} \n tier : {} \n Error : {} ".format(body, tier,
+                                                                                                json.loads(e.body)))
 
 
 def parse_arguments():
