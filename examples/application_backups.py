@@ -1,6 +1,7 @@
 # Python SDK Examples
-# Script will get all applications and dump to CSV file or create application using data in CSV file
-# or the scope can be any l2 network, security group, etc.
+# Script will get all applications and dump to yaml file or create application using data in given yaml file
+
+
 
 import init_api_client
 import argparse
@@ -33,12 +34,12 @@ def main(args):
                 break
             params['cursor'] = apps.cursor
 
-        logger.info("Storing Application/Tier info to {}".format(args.application_backup_csv))
-        with open(args.application_backup_csv, 'w') as outfile:
+        logger.info("Storing Application/Tier info to {}".format(args.application_backup_yaml))
+        with open(args.application_backup_yaml, 'w') as outfile:
             yaml.dump(all_apps, outfile, default_flow_style=False)
 
     if args.application_backup_action == 'restore':
-        with open(args.application_backup_csv, 'r') as outfile:
+        with open(args.application_backup_yaml, 'r') as outfile:
             all_apps = yaml.load(outfile)
         for app in all_apps:
             logger.info("Restoring app '{}'".format(app['name']))
@@ -64,9 +65,7 @@ def parse_arguments():
                         default='admin', help="password for authentication")
     parser.add_argument("--domain_type", action="store",
                         default='LOCAL', help="domain type for authentication")
-    parser.add_argument("--data_sources_csv", action="store",
-                        default='data_sources.csv', help="Data sources are saved in this csv")
-    parser.add_argument("--application_backup_csv", action="store",
+    parser.add_argument("--application_backup_yaml", action="store",
                         default='application_backup.yml', help="Applications and tiers are saved in this csv")
     parser.add_argument("--application_backup_action", action="store",
                         default='save', help="Action can be 'save' or 'restore'")
