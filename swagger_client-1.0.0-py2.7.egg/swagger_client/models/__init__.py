@@ -81,6 +81,8 @@ from .pks_source_request import PKSSourceRequest
 from .paged_application_list_response import PagedApplicationListResponse
 from .paged_list_response import PagedListResponse
 from .paged_list_response_with_time import PagedListResponseWithTime
+from .paged_user_group_list_response import PagedUserGroupListResponse
+from .paged_user_list_response import PagedUserListResponse
 from .password_credentials import PasswordCredentials
 from .path_firewall_rules import PathFirewallRules
 from .path_firewall_rules_request import PathFirewallRulesRequest
@@ -90,6 +92,7 @@ from .recommended_rule import RecommendedRule
 from .recommended_rules import RecommendedRules
 from .recommended_rules_request import RecommendedRulesRequest
 from .reference import Reference
+from .role import Role
 from .rule_set import RuleSet
 from .snmp2c_config import SNMP2cConfig
 from .snmp3_config import SNMP3Config
@@ -108,9 +111,19 @@ from .tier_request import TierRequest
 from .time_range import TimeRange
 from .token import Token
 from .user_credential import UserCredential
+from .user_group_response import UserGroupResponse
+from .user_group_type import UserGroupType
+from .user_response import UserResponse
+from .user_type import UserType
 from .vendor_id import VendorId
 from .vendor_info import VendorInfo
 from .version_response import VersionResponse
+from .vidm_config_response import VidmConfigResponse
+from .vidm_configuration import VidmConfiguration
+from .vidm_oauth_client_response import VidmOauthClientResponse
+from .vidm_token import VidmToken
+from .vidm_user_group_request import VidmUserGroupRequest
+from .vidm_user_request import VidmUserRequest
 from .vlan import Vlan
 from .application import Application
 from .base_event import BaseEvent

@@ -81,6 +81,8 @@ from .models.pks_source_request import PKSSourceRequest
 from .models.paged_application_list_response import PagedApplicationListResponse
 from .models.paged_list_response import PagedListResponse
 from .models.paged_list_response_with_time import PagedListResponseWithTime
+from .models.paged_user_group_list_response import PagedUserGroupListResponse
+from .models.paged_user_list_response import PagedUserListResponse
 from .models.password_credentials import PasswordCredentials
 from .models.path_firewall_rules import PathFirewallRules
 from .models.path_firewall_rules_request import PathFirewallRulesRequest
@@ -90,6 +92,7 @@ from .models.recommended_rule import RecommendedRule
 from .models.recommended_rules import RecommendedRules
 from .models.recommended_rules_request import RecommendedRulesRequest
 from .models.reference import Reference
+from .models.role import Role
 from .models.rule_set import RuleSet
 from .models.snmp2c_config import SNMP2cConfig
 from .models.snmp3_config import SNMP3Config
@@ -108,9 +111,19 @@ from .models.tier_request import TierRequest
 from .models.time_range import TimeRange
 from .models.token import Token
 from .models.user_credential import UserCredential
+from .models.user_group_response import UserGroupResponse
+from .models.user_group_type import UserGroupType
+from .models.user_response import UserResponse
+from .models.user_type import UserType
 from .models.vendor_id import VendorId
 from .models.vendor_info import VendorInfo
 from .models.version_response import VersionResponse
+from .models.vidm_config_response import VidmConfigResponse
+from .models.vidm_configuration import VidmConfiguration
+from .models.vidm_oauth_client_response import VidmOauthClientResponse
+from .models.vidm_token import VidmToken
+from .models.vidm_user_group_request import VidmUserGroupRequest
+from .models.vidm_user_request import VidmUserRequest
 from .models.vlan import Vlan
 from .models.application import Application
 from .models.base_event import BaseEvent
