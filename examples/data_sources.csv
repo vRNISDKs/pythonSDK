@@ -1,2 +1,2 @@
 DataSourceType,IP,Username,Password,CSPRefreshToken,NickName,CentralCliEnabled,IPFixEnabled,SwitchType,ParentvCenter,IsVMC,snmp_version,snmp_community_string,snmp_username,snmp_password,snmp_auth_type,snmp_privacy_type,ProxyIP
-CiscoSwitchDataSource,10.79.40.31,root,root,,NEXUS_5K,,,NEXUS_5K,,,v2c,public,admin,Vnera655,MD5,NO_PRIV,10.79.43.29
+CiscoSwitchDataSource,10.79.40.138,root,root,,NEXUS_5K,,,NEXUS_5K,,,v2c,public,admin,Vnera655,MD5,NO_PRIV,10.79.43.29
